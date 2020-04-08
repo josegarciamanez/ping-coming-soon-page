@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const Home = () => (
   <div className='container'>
@@ -13,8 +14,75 @@ const Home = () => (
         We are launching <span>soon!</span>
       </h2>
       <p>Subscribe and get notified</p>
-      <input type='text' placeholder='Your email adress...' />
-      <button>Notify Me</button>
+      <Formik
+        initialValues={{
+          email: '',
+        }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.email) {
+            errors.email = 'Email cannot be empty';
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = 'Looks like this is not an email';
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 400);
+          resetForm({});
+        }}>
+        {({ errors, isSubmitting }) => (
+          <Form className='white-card mt-2'>
+            {errors.email ? (
+              <Field
+                type='email'
+                name='email'
+                className='email'
+                placeholder='Your email adress...'
+                style={{
+                  minWidth: '90%',
+                  height: '30px',
+                  border: '1px solid red',
+                  borderRadius: '15px',
+                  paddingLeft: '20px',
+                  // backgroundImage: `url(${ErrorLogo})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 10px center',
+                }}
+              />
+            ) : (
+              <Field
+                className='email'
+                type='email'
+                name='email'
+                placeholder='Your email adress...'
+                style={{
+                  minWidth: '90%',
+                  height: '30px',
+                  opacity: '0.3',
+                  border: '1px solid var(--primary)',
+                  borderRadius: '15px',
+                  paddingLeft: '20px',
+                }}
+              />
+            )}
+            <ErrorMessage
+              name='email'
+              component='h5'
+              style={{ color: 'red' }}
+            />
+            <button type='submit' disabled={isSubmitting}>
+              Notify Me
+            </button>
+          </Form>
+        )}
+      </Formik>
+
       <img
         className='dashboard'
         src='/images/illustration-dashboard.png'
@@ -132,6 +200,9 @@ const Home = () => (
         border: 1px solid var(--primary);
         border-radius: 15px;
         padding-left: 20px;
+      }
+      input:focus {
+        outline: none;
       }
       button {
         margin-top: 10px;
