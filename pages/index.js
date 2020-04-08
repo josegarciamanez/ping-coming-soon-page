@@ -25,7 +25,7 @@ const Home = () => (
           } else if (
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
           ) {
-            errors.email = 'Looks like this is not an email';
+            errors.email = 'Please provide a valid email address';
           }
           return errors;
         }}
@@ -37,7 +37,7 @@ const Home = () => (
           resetForm({});
         }}>
         {({ errors, isSubmitting }) => (
-          <Form className='white-card mt-2'>
+          <Form className='white-card mt-2' noValidate>
             {errors.email ? (
               <Field
                 type='email'
@@ -45,12 +45,8 @@ const Home = () => (
                 className='email'
                 placeholder='Your email adress...'
                 style={{
-                  minWidth: '90%',
-                  height: '30px',
                   border: '1px solid red',
                   borderRadius: '15px',
-                  paddingLeft: '20px',
-                  // backgroundImage: `url(${ErrorLogo})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'right 10px center',
                 }}
@@ -61,14 +57,6 @@ const Home = () => (
                 type='email'
                 name='email'
                 placeholder='Your email adress...'
-                style={{
-                  minWidth: '90%',
-                  height: '30px',
-                  opacity: '0.3',
-                  border: '1px solid var(--primary)',
-                  borderRadius: '15px',
-                  paddingLeft: '20px',
-                }}
               />
             )}
             <ErrorMessage
@@ -193,29 +181,15 @@ const Home = () => (
         margin-left: 12px;
       }
 
-      input {
-        min-width: 90%;
-        height: 30px;
-        opacity: 0.3;
-        border: 1px solid var(--primary);
-        border-radius: 15px;
-        padding-left: 20px;
-      }
-      input:focus {
-        outline: none;
-      }
-      button {
-        margin-top: 10px;
-        min-width: 90%;
-        height: 30px;
-        background: var(--primary);
-        color: white;
-        border-radius: 15px;
-        border: 1px solid var(--primary);
-        box-shadow: 0 2px 8px var(--primary);
-      }
-
       @media (min-width: 767px) {
+        h2 {
+          font-size: 40px;
+          margin-top: 30px;
+        }
+
+        img.dashboard {
+          max-width: 40vw;
+        }
       }
     `}</style>
 
@@ -239,6 +213,47 @@ const Home = () => (
         --danger: #ff5263;
         --neutral-light: #969696;
         --neutral-dark: #151f29;
+      }
+
+      form {
+        width: 100%;
+      }
+      input {
+        min-width: 100%;
+        height: 30px;
+        opacity: 0.3;
+        border: 1px solid var(--primary);
+        border-radius: 15px;
+        padding-left: 20px;
+      }
+      input:focus {
+        outline: none;
+      }
+
+      button {
+        margin-top: 10px;
+        min-width: 100%;
+        height: 30px;
+        background: var(--primary);
+        color: white;
+        border-radius: 15px;
+        border: 1px solid var(--primary);
+        box-shadow: 0 2px 8px var(--primary);
+        cursor: pointer;
+      }
+
+      button:disabled,
+      button[disabled] {
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+      }
+
+      h5 {
+        margin: 0;
+        font-weight: 300;
+        text-align: center;
       }
     `}</style>
   </div>
